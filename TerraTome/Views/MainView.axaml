@@ -6,11 +6,31 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TerraTome.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<WrapPanel>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="_File">
+					<MenuItem Header="_New" Click="NewClick" />
+					<MenuItem Header="_Open" Click="OpenClick" />
+					<MenuItem Header="_Close" Click="CloseClick" IsEnabled="{Binding Path=IsProjectLoaded, Mode=OneWay}" />
+					<MenuItem Header="_Save" Click="SaveClick" IsEnabled="{Binding IsProjectLoaded}" />
+					<Separator />
+					<MenuItem Header="_Exit" />
+				</MenuItem>
+			</Menu>
+
+			<TextBlock Text="{Binding Greeting}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+		</Grid>
+	</WrapPanel>
 </UserControl>

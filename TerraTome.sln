@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.iOS", "TerraTome.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.Browser", "TerraTome.Browser\TerraTome.Browser.csproj", "{3A7BA88D-D815-4614-B430-9123D8569271}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Domain", "TerraTome.Domain\TerraTome.Domain.csproj", "{10922D3D-9BAC-459A-8161-4B60CD5896CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{5449605D-C331-42BE-A388-DDA5C31D132C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,9 +47,16 @@ Global
 		{3A7BA88D-D815-4614-B430-9123D8569271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A7BA88D-D815-4614-B430-9123D8569271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A7BA88D-D815-4614-B430-9123D8569271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10922D3D-9BAC-459A-8161-4B60CD5896CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10922D3D-9BAC-459A-8161-4B60CD5896CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10922D3D-9BAC-459A-8161-4B60CD5896CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10922D3D-9BAC-459A-8161-4B60CD5896CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10922D3D-9BAC-459A-8161-4B60CD5896CC} = {5449605D-C331-42BE-A388-DDA5C31D132C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0100A070-09B7-47A3-9359-D16EEB33D4E1}
