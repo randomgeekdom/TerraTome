@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34902.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome", "TerraTome\TerraTome.csproj", "{216FE2DB-EAFE-49F3-A936-F1114E89C40A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.Android", "TerraTome.Android\TerraTome.Android.csproj", "{AB69C1C4-79A5-4E14-BF66-3E65E834B261}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.Desktop", "TerraTome.Desktop\TerraTome.Desktop.csproj", "{514446B8-7AEE-4DDC-98D1-54D3DE386A84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.iOS", "TerraTome.iOS\TerraTome.iOS.csproj", "{D40899F7-3A4F-4410-BB98-24980DF2D775}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TerraTome.Browser", "TerraTome.Browser\TerraTome.Browser.csproj", "{3A7BA88D-D815-4614-B430-9123D8569271}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{216FE2DB-EAFE-49F3-A936-F1114E89C40A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216FE2DB-EAFE-49F3-A936-F1114E89C40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216FE2DB-EAFE-49F3-A936-F1114E89C40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216FE2DB-EAFE-49F3-A936-F1114E89C40A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB69C1C4-79A5-4E14-BF66-3E65E834B261}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{514446B8-7AEE-4DDC-98D1-54D3DE386A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{514446B8-7AEE-4DDC-98D1-54D3DE386A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{514446B8-7AEE-4DDC-98D1-54D3DE386A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{514446B8-7AEE-4DDC-98D1-54D3DE386A84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40899F7-3A4F-4410-BB98-24980DF2D775}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3A7BA88D-D815-4614-B430-9123D8569271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A7BA88D-D815-4614-B430-9123D8569271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A7BA88D-D815-4614-B430-9123D8569271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A7BA88D-D815-4614-B430-9123D8569271}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0100A070-09B7-47A3-9359-D16EEB33D4E1}
+	EndGlobalSection
+EndGlobal
