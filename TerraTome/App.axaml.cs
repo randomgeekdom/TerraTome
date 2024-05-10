@@ -23,9 +23,15 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            desktop.ShutdownRequested += async (sender, e) =>
+            {
+                e.Cancel = true;
+                await (desktop.MainWindow as MainWindow).MainView.CheckSaveOnCloseAsync();
+            };
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel(),
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)

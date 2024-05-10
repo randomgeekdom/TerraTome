@@ -1,11 +1,10 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TerraTome.Domain;
 using TerraTome.ViewModels;
@@ -21,17 +20,42 @@ public partial class MainView : UserControl
 
     public MainViewModel ViewModel => DataContext as MainViewModel ?? throw new InvalidOperationException("DataContext is not MainViewModel");
 
-    private void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    public async Task CheckSaveOnCloseAsync()
     {
-        if (ViewModel.Project != null)
+        var project = this.ViewModel.Project;
+        if (project != null)
         {
-            ViewModel.CloseProject();
+            var box = MessageBoxManager
+            .GetMessageBoxStandard("Caption", "Would you like to Save?",
+                ButtonEnum.YesNo);
+
+            var result = await box.ShowAsync();
+
+            switch (result)
+            {
+                case ButtonResult.Yes:
+                    await this.SaveAsync();
+                    this.ViewModel.CloseProject();
+                    break;
+
+                case ButtonResult.No:
+                    this.ViewModel.CloseProject();
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unknown button result");
+            }
         }
+    }
+
+    private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        await CheckSaveOnCloseAsync();
     }
 
     private void NewClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        this.ViewModel.LoadProject(new Project());
+        this.ViewModel.LoadProject(Project.TryCreate().Value);
     }
 
     private async void OpenClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -66,13 +90,8 @@ public partial class MainView : UserControl
         }
     }
 
-    private async void SaveClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async Task SaveAsync()
     {
-        if (ViewModel.Project == null)
-        {
-            return;
-        }
-
         // Get top level from the current control. Alternatively, you can use Window reference instead.
         var topLevel = TopLevel.GetTopLevel(this);
 
@@ -100,5 +119,15 @@ public partial class MainView : UserControl
             await using var stream = await task;
             await JsonSerializer.SerializeAsync(stream, project);
         });
+    }
+
+    private async void SaveClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (ViewModel.Project == null)
+        {
+            return;
+        }
+
+        await SaveAsync();
     }
 }

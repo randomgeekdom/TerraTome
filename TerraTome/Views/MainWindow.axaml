@@ -8,5 +8,5 @@
         x:Class="TerraTome.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="TerraTome">
-        <views:MainView />
+	<views:MainView Name="MainView" />
 </Window>
