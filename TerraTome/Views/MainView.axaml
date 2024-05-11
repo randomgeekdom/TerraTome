@@ -20,17 +20,20 @@
 			</Grid.RowDefinitions>
 
 			<Menu DockPanel.Dock="Top">
-				<MenuItem Header="_File">
+				<MenuItem Header="Menu">
 					<MenuItem Header="_New" Click="NewClick" />
 					<MenuItem Header="_Open" Click="OpenClick" />
-					<MenuItem Header="_Close" Click="CloseClick" IsEnabled="{Binding Path=IsProjectLoaded, Mode=OneWay}" />
 					<MenuItem Header="_Save" Click="SaveClick" IsEnabled="{Binding IsProjectLoaded}" />
-					<!--<Separator />-->
+					<Separator />
+					<MenuItem Header="_Close" Click="CloseClick" IsEnabled="{Binding Path=IsProjectLoaded, Mode=OneWay}" />
 					<!--<MenuItem Header="_Exit" Click="ExitClick" />-->
 				</MenuItem>
 			</Menu>
 
-			<TextBlock Text="{Binding Greeting}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<StackPanel Grid.Row="1" Margin="15">
+
+				<TextBlock Text="{Binding Greeting}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+			</StackPanel>
 		</Grid>
 	</WrapPanel>
 </UserControl>
