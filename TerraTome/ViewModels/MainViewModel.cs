@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using TerraTome.Domain;
+using TerraTome.Services;
 
 namespace TerraTome.ViewModels;
 
@@ -12,21 +15,17 @@ public partial class MainViewModel : ViewModelBase, INotifyPropertyChanged
     private Project? _project;
 
     [ObservableProperty]
-    private AggregateViewModel _selectedViewModel;
+    private ViewModelEntry _selectedViewModel;
 
-    public MainViewModel()
+    public MainViewModel(IViewModelFactory viewModelFactory)
     {
+        this.Views = new ObservableCollection<ViewModelEntry>(viewModelFactory.Views);
         _selectedViewModel = Views.First();
     }
 
-    public string Greeting => "Welcome to Avalonia!";
     public bool IsProjectLoaded => Project != null;
 
-    public ObservableCollection<AggregateViewModel> Views { get; } =
-    [
-        new LocalesViewModel(),
-        new EventsViewModel(),
-    ];
+    public ObservableCollection<ViewModelEntry> Views { get; }
 
     public void CloseProject()
     {

@@ -5,17 +5,21 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TerraTome.Services;
+using TerraTome.ViewModels;
 
 namespace TerraTome.Converters
 {
     public class ViewModelToViewConverter : IValueConverter
     {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object? val, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is null)
+            if (val is not ViewModelEntry vm)
             {
                 return null;
             }
+
+            var value = vm.ViewModel();
 
             var viewModelType = value.GetType();
             var viewTypeName = viewModelType.FullName!.Replace("ViewModels", "Views").Replace("ViewModel", "View");
