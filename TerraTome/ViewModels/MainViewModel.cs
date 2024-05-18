@@ -15,7 +15,6 @@ public partial class MainViewModel : ViewModelBase, INotifyPropertyChanged
 
     public string Greeting => "Welcome to Avalonia!";
     public bool IsProjectLoaded => Project != null;
-    public bool ProjectIsDirty => Project?.IsDirty ?? false;
 
     public void CloseProject()
     {

@@ -23,7 +23,6 @@
 				<MenuItem Header="Menu">
 					<MenuItem Header="_New" Click="NewClick" />
 					<MenuItem Header="_Open" Click="OpenClick" />
-					<MenuItem Header="_Save" Click="SaveClick" IsEnabled="{Binding IsProjectLoaded}" />
 					<Separator />
 					<MenuItem Header="_Close" Click="CloseClick" IsEnabled="{Binding Path=IsProjectLoaded, Mode=OneWay}" />
 					<!--<MenuItem Header="_Exit" Click="ExitClick" />-->

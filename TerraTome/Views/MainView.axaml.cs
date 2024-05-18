@@ -20,42 +20,75 @@ public partial class MainView : UserControl
 
     public MainViewModel ViewModel => DataContext as MainViewModel ?? throw new InvalidOperationException("DataContext is not MainViewModel");
 
-    public async Task CheckSaveOnCloseAsync()
-    {
-        var project = this.ViewModel.Project;
-        if (project != null)
-        {
-            var box = MessageBoxManager
-            .GetMessageBoxStandard("Caption", "Would you like to Save?",
-                ButtonEnum.YesNo);
+    //public async Task CheckSaveOnCloseAsync()
+    //{
+    //    var project = this.ViewModel.Project;
+    //    if (project != null)
+    //    {
+    //        var box = MessageBoxManager
+    //        .GetMessageBoxStandard("Caption", "Would you like to Save?",
+    //            ButtonEnum.YesNo);
 
-            var result = await box.ShowAsync();
+    //        var result = await box.ShowAsync();
 
-            switch (result)
-            {
-                case ButtonResult.Yes:
-                    await this.SaveAsync();
-                    this.ViewModel.CloseProject();
-                    break;
+    //        switch (result)
+    //        {
+    //            case ButtonResult.Yes:
+    //                await this.SaveAsync();
+    //                this.ViewModel.CloseProject();
+    //                break;
 
-                case ButtonResult.No:
-                    this.ViewModel.CloseProject();
-                    break;
+    //            case ButtonResult.No:
+    //                this.ViewModel.CloseProject();
+    //                break;
 
-                default:
-                    throw new InvalidOperationException("Unknown button result");
-            }
-        }
-    }
+    //            default:
+    //                throw new InvalidOperationException("Unknown button result");
+    //        }
+    //    }
+    //}
 
     private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        await CheckSaveOnCloseAsync();
+        this.ViewModel.CloseProject();
     }
 
-    private void NewClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void NewClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        this.ViewModel.LoadProject(Project.TryCreate().Value);
+        // Get top level from the current control. Alternatively, you can use Window reference instead.
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        // Start async operation to open the dialog.
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Save TerraTome File",
+            DefaultExtension = "tome",
+            FileTypeChoices = [
+                new("TerraTome Files")
+                {
+                    Patterns = ["*.tome"]
+                }
+            ]
+        });
+
+        if (file == null)
+        {
+            return;
+        }
+
+        var project = new Project
+        {
+            Path = file.Path.AbsolutePath,
+            Name = file.Name
+        };
+
+        ViewModel.LoadProject(project);
+
+        await file.OpenWriteAsync().ContinueWith(async task =>
+        {
+            await using var stream = await task;
+            await JsonSerializer.SerializeAsync(stream, project);
+        });
     }
 
     private async void OpenClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -85,49 +118,11 @@ public partial class MainView : UserControl
             var vm = ViewModel;
             if (vm != null)
             {
-                vm.LoadProject(await JsonSerializer.DeserializeAsync<Project>(stream));
+                var project = await JsonSerializer.DeserializeAsync<Project>(stream);
+                project.Path = files[0].Path.AbsolutePath;
+                project.Name = files[0].Name;
+                vm.LoadProject(project);
             }
         }
-    }
-
-    private async Task SaveAsync()
-    {
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        // Start async operation to open the dialog.
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-        {
-            Title = "Save TerraTome File",
-            DefaultExtension = "tome",
-            FileTypeChoices = [
-                new("TerraTome Files")
-                {
-                    Patterns = ["*.tome"]
-                }
-            ]
-        });
-
-        if (file == null)
-        {
-            return;
-        }
-
-        var project = ViewModel.Project;
-        await file.OpenWriteAsync().ContinueWith(async task =>
-        {
-            await using var stream = await task;
-            await JsonSerializer.SerializeAsync(stream, project);
-        });
-    }
-
-    private async void SaveClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if (ViewModel.Project == null)
-        {
-            return;
-        }
-
-        await SaveAsync();
     }
 }

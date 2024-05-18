@@ -26,7 +26,7 @@ public partial class App : Application
             desktop.ShutdownRequested += async (sender, e) =>
             {
                 e.Cancel = true;
-                await (desktop.MainWindow as MainWindow).MainView.CheckSaveOnCloseAsync();
+                //await (desktop.MainWindow as MainWindow).MainView.CheckSaveOnCloseAsync();
             };
 
             desktop.MainWindow = new MainWindow
