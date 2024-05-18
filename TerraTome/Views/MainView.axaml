@@ -33,11 +33,11 @@
 					<!--<MenuItem Header="_Exit" Click="ExitClick" />-->
 				</MenuItem>
 
-				<ComboBox ItemsSource="{Binding Views}" SelectedItem="{Binding SelectedViewModel}" HorizontalAlignment="Stretch" BorderThickness="0" />
+				<ComboBox ItemsSource="{Binding Views}" SelectedItem="{Binding SelectedViewModel}" HorizontalAlignment="Stretch" BorderThickness="0"  IsVisible="{Binding IsProjectLoaded}" />
 			</Menu>
 
-			<StackPanel Grid.Row="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding SelectedViewModel}">
-				<ContentControl Content="{Binding, Converter={StaticResource vvmConverter}}}" />
+			<StackPanel Grid.Row="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding IsProjectLoaded}">
+				<ContentControl Content="{Binding SelectedViewModel, Converter={StaticResource vvmConverter}}}" />
 			</StackPanel>
 		</Grid>
 	</WrapPanel>
