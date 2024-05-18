@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:TerraTome.ViewModels"
+			 xmlns:converters="clr-namespace:TerraTome.Converters;assembly=TerraTome"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TerraTome.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -11,6 +12,10 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
+
+	<UserControl.Resources>
+		<converters:ViewModelToViewConverter x:Key="vvmConverter" />
+	</UserControl.Resources>
 
 	<WrapPanel>
 		<Grid>
@@ -27,11 +32,12 @@
 					<MenuItem Header="_Close" Click="CloseClick" IsEnabled="{Binding Path=IsProjectLoaded, Mode=OneWay}" />
 					<!--<MenuItem Header="_Exit" Click="ExitClick" />-->
 				</MenuItem>
+
+				<ComboBox ItemsSource="{Binding Views}" SelectedItem="{Binding SelectedViewModel}" HorizontalAlignment="Stretch" BorderThickness="0" />
 			</Menu>
 
-			<StackPanel Grid.Row="1" Margin="15">
-
-				<TextBlock Text="{Binding Greeting}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<StackPanel Grid.Row="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding SelectedViewModel}">
+				<ContentControl Content="{Binding, Converter={StaticResource vvmConverter}}}" />
 			</StackPanel>
 		</Grid>
 	</WrapPanel>
