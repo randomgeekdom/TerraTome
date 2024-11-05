@@ -3,6 +3,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="TerraTome.Views.WorldView">
-    Welcome to Avalonia!
+             x:Class="TerraTome.Views.WorldView"
+             xmlns:vm="clr-namespace:TerraTome.ViewModels"
+             x:DataType="vm:WorldViewModel">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Label Grid.Row="0" Grid.Column="0" Content="Name:"></Label>
+        <Label Grid.Row="1" Grid.Column="0" Content="Timeline Unit:"></Label>
+        <Label Grid.Row="2" Grid.Column="0" Content="Monetary Unit:"></Label>
+        <Label Grid.Row="3" Grid.Column="0" Content="Notes:"></Label>
+        
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TimelineUnit}"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MonetaryUnit}"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Notes}" MinLines="3" TextWrapping="WrapWithOverflow" AcceptsReturn="True" ></TextBox>
+    </Grid>
 </UserControl>

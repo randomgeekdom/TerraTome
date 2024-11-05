@@ -17,31 +17,29 @@ public partial class MainView : UserControl
 	
 	private async  void Load_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (DataContext is MainViewModel vm)
-        {
-            // Get top level from the current control. Alternatively, you can use Window reference instead.
-            var topLevel = TopLevel.GetTopLevel(this);
+        if (DataContext is not MainViewModel vm) return;
+        // Get top level from the current control. Alternatively, you can use Window reference instead.
+        var topLevel = TopLevel.GetTopLevel(this);
 
-            if(topLevel is null) return;
+        if(topLevel is null) return;
             
-            // Start async operation to open the dialog.
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-            {
-                Title = "Load Project",
-                AllowMultiple = false,
-                FileTypeFilter = [new FilePickerFileType("TerraTome Project"){Patterns = ["*.tt"] }]
-            });
+        // Start async operation to open the dialog.
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Load Project",
+            AllowMultiple = false,
+            FileTypeFilter = [new FilePickerFileType("TerraTome Project"){Patterns = ["*.tt"] }]
+        });
 
-            if (files.Count < 1) return;
-            // Open reading stream from the first file.
-            await using var stream = await files[0].OpenReadAsync();
-            var project = await JsonSerializer.DeserializeAsync<TerraTomeProjectDto>(stream);
+        if (files.Count < 1) return;
+        // Open reading stream from the first file.
+        await using var stream = await files[0].OpenReadAsync();
+        var project = await JsonSerializer.DeserializeAsync<TerraTomeProjectDto>(stream);
 
-            var entity = TerraTomeProject.TryCreate(files[0].Path.AbsolutePath).Value;
-            if (project != null) entity.FromDto(project);
+        var entity = TerraTomeProject.TryCreate(files[0].Path.AbsolutePath).Value;
+        if (project != null) entity.FromDto(project);
 
-            vm.SetProject(entity);
-        }
+        vm.SetProject(entity);
     }
     
 

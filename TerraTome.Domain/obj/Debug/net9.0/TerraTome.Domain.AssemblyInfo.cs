@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TerraTome.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e4bc2a79bf3e478dcef4a7c59b117e0de026cd6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbd3eea07b56dabc826db8e33a36889cc893f19d")]
 [assembly: System.Reflection.AssemblyProductAttribute("TerraTome.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TerraTome.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

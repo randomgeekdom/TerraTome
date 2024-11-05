@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="TerraTome/TerraTome/Views/MainView.axaml" value="TerraTome/TerraTome.Browser/TerraTome.Browser.csproj" />
+        <entry key="TerraTome/TerraTome/Views/WorldView.axaml" value="TerraTome/TerraTome.Browser/TerraTome.Browser.csproj" />
       </map>
     </option>
   </component>

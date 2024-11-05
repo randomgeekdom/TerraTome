@@ -50,4 +50,21 @@ public class TerraTomeProject : Entity<TerraTomeProjectDto>
 		await JsonSerializer.SerializeAsync(stream, ToDto());
 		return Result.Success();
 	}
+	
+	public void SetName(string name)
+	{
+		Name = name;
+	}
+	public void SetTimelineUnit(string timelineUnit)
+	{
+		TimelineUnit = timelineUnit;
+	}
+	public void SetMonetaryUnit(string monetaryUnit)
+	{
+		MonetaryUnit = monetaryUnit;
+	}
+	public void SetNotes(string notes)
+	{
+		Notes = notes;
+	}
 }

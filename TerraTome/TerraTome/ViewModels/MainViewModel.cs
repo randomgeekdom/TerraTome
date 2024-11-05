@@ -20,7 +20,7 @@ public partial class MainViewModel : ViewModelBase
 		TerraTomeProject = project;
         
 		ViewModels.Clear();
-		ViewModels.Add(new WorldViewModel());
+		ViewModels.Add(new WorldViewModel(project));
 		ViewModels.Add(new TimelineViewModel());
         
 		OnPropertyChanged(nameof(IsProjectLoaded));
