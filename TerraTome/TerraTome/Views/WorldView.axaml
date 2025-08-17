@@ -23,7 +23,7 @@
         <Label Grid.Row="2" Grid.Column="0" Content="Monetary Unit:"></Label>
         <Label Grid.Row="3" Grid.Column="0" Content="Notes:"></Label>
         
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding WorldName}"></TextBox>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TimelineUnit}"></TextBox>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MonetaryUnit}"></TextBox>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Notes}" MinLines="3" TextWrapping="WrapWithOverflow" AcceptsReturn="True" ></TextBox>

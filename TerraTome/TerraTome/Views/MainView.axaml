@@ -13,21 +13,24 @@
   </Design.DataContext>
    <Grid>
         <Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--<Menu>
+        <Menu>
 			<MenuItem Header="_File">
-				<MenuItem Header="_New" Command="{Binding NewCommand}"></MenuItem>
-				<MenuItem Header="_Open"></MenuItem>
-				<MenuItem Header="_Save"></MenuItem>
-				<MenuItem Header="_Save Copy"></MenuItem>
+				<MenuItem Header="_New" Click="Create_OnClick"></MenuItem>
+				<MenuItem Header="_Open" Click="Load_OnClick" ></MenuItem>
+				<MenuItem Header="_Save" Click="Save_Click" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+				<MenuItem Header="_Save Copy" Click="SaveAs_Click" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
 			</MenuItem>
-		</Menu>-->
+		</Menu>
         
-        <Grid IsVisible="{Binding IsProjectNotLoaded}" 
+        <!--<Grid IsVisible="{Binding IsProjectNotLoaded}" 
                    HorizontalAlignment="Stretch" 
-                   VerticalAlignment="Stretch">
+                   VerticalAlignment="Stretch"
+			  Grid.RowSpan="2"
+			  >
 	        
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -60,10 +63,10 @@
                     <TextBlock Text="Load Existing Project" Grid.Row="1"></TextBlock>
                 </Grid>
             </Button>
-        </Grid>
+        </Grid>-->
         
-        <DockPanel IsVisible="{Binding IsProjectLoaded}" Dock="Top">
-            <TabControl ItemsSource="{Binding ViewModels}">
+        <DockPanel IsVisible="{Binding IsProjectLoaded}" Dock="Top" Grid.Row="1">
+            <TabControl  ItemsSource="{Binding ViewModels}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}" />

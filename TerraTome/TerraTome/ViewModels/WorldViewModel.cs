@@ -5,7 +5,7 @@ namespace TerraTome.ViewModels;
 
 public partial class WorldViewModel(TerraTomeProject project) : ViewModelBase
 {
-	public override string Name => "World";
+	public override string Name => "Basics";
 	[ObservableProperty] private TerraTomeProject _project = project;
 
 	public string WorldName

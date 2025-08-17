@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text.Json;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -59,6 +60,46 @@ public partial class MainView : UserControl
 
         if (file == null) return;
         var project = TerraTomeProject.TryCreate(file.Path.AbsolutePath).Value;
+
+        await using var stream = await file.OpenWriteAsync();
+        await JsonSerializer.SerializeAsync(stream, project);
+
+        vm.SetProject(project);
+    }
+
+    private async void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm) return;
+        // Get top level from the current control. Alternatively, you can use Window reference instead.
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        if (topLevel is null) return;
+
+        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.TerraTomeProject!.GetFilePath());
+
+        if (file == null) throw new FileNotFoundException();
+
+        await using var stream = await file.OpenWriteAsync();
+        await JsonSerializer.SerializeAsync(stream, vm.TerraTomeProject);
+    }
+
+    private async void SaveAs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm) return;
+        // Get top level from the current control. Alternatively, you can use Window reference instead.
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        if (topLevel is null) return;
+
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Save Project Copy",
+            FileTypeChoices = [new FilePickerFileType("TerraTome Project") { Patterns = ["*.tt"] }],
+        });
+
+        if (file == null) return;
+        var project = vm.TerraTomeProject!;
+        project.SetFilePath(file.Path.AbsolutePath);
 
         await using var stream = await file.OpenWriteAsync();
         await JsonSerializer.SerializeAsync(stream, project);
