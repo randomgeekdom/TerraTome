@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/TerraTome
+/TerraTome.Domain/bin/Debug/net9.0
+/TerraTome.Domain/obj/Debug/net9.0/ref
+/TerraTome.Domain/obj/Debug/net9.0/refint
+/TerraTome.Domain/obj/project.assets.json
+/TerraTome.Domain/obj/project.nuget.cache
+/TerraTome.Domain/obj/project.packagespec.json
+/TerraTome.Domain/obj/TerraTome.Domain.csproj.nuget.dgspec.json
+/TerraTome.Domain/obj/TerraTome.Domain.csproj.nuget.g.props
