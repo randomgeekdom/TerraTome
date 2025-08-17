@@ -7,10 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.iOS" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.iOS" Version="11.3.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TerraTome\TerraTome.csproj"/>
+        <ProjectReference Include="..\TerraTome\TerraTome.csproj" />
     </ItemGroup>
 </Project>

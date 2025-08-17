@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Browser" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Avalonia.Browser" Version="11.3.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TerraTome\TerraTome.csproj"/>
+        <ProjectReference Include="..\TerraTome\TerraTome.csproj" />
     </ItemGroup>
 </Project>
