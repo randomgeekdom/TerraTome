@@ -6,9 +6,9 @@ namespace TerraTome.Domain;
 
 public class TerraTomeProject : Entity<TerraTomeProjectDto>
 {
-    private string _filePath;
+    private Uri _filePath;
 
-    private TerraTomeProject(string filePath)
+    private TerraTomeProject(Uri filePath)
     {
         _filePath = filePath;
     }
@@ -18,7 +18,7 @@ public class TerraTomeProject : Entity<TerraTomeProjectDto>
     public string Notes { get; private set; } = string.Empty;
     public string TimelineUnit { get; private set; } = "Year";
 
-    public static Result<TerraTomeProject> TryCreate(string filePath)
+    public static Result<TerraTomeProject> TryCreate(Uri filePath)
     {
         return new TerraTomeProject(filePath);
     }
@@ -32,19 +32,12 @@ public class TerraTomeProject : Entity<TerraTomeProjectDto>
         Notes = dto.Notes;
     }
 
-    public string GetFilePath()
+    public Uri GetFilePath()
     {
         return _filePath;
     }
 
-    public async Task<Result> SaveAsync()
-    {
-        await using var stream = new FileStream(_filePath, FileMode.Create);
-        await JsonSerializer.SerializeAsync(stream, ToDto());
-        return Result.Success();
-    }
-
-    public void SetFilePath(string filePath)
+    public void SetFilePath(Uri filePath)
     {
         this._filePath = filePath;
     }

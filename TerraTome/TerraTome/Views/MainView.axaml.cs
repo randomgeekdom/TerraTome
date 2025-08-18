@@ -29,7 +29,7 @@ public partial class MainView : UserControl
 
         var file = await ShowSaveFileDialog(topLevel, "Save Project");
         if (file == null) return;
-        var project = TerraTomeProject.TryCreate(file.Path.AbsolutePath).Value;
+        var project = TerraTomeProject.TryCreate(file.Path).Value;
         await SerializeProjectAsync(file, project);
         vm.SetProject(project);
     }
@@ -52,7 +52,7 @@ public partial class MainView : UserControl
         if (files.Count < 1) return;
 
         var projectDto = await DeserializeProjectDtoAsync(files[0]);
-        var entity = TerraTomeProject.TryCreate(files[0].Path.AbsolutePath).Value;
+        var entity = TerraTomeProject.TryCreate(files[0].Path).Value;
         if (projectDto != null) entity.FromDto(projectDto);
         vm.SetProject(entity);
     }
@@ -68,7 +68,7 @@ public partial class MainView : UserControl
         await SerializeProjectAsync(file, vm.TerraTomeProject!);
     }
 
-    private async void SaveAs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void SaveAs_Click(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
         var topLevel = GetTopLevel();
@@ -77,7 +77,7 @@ public partial class MainView : UserControl
         var file = await ShowSaveFileDialog(topLevel, "Save Project Copy");
         if (file == null) return;
         var project = vm.TerraTomeProject!;
-        project.SetFilePath(file.Path.AbsolutePath);
+        project.SetFilePath(file.Path);
         await SerializeProjectAsync(file, project);
         vm.SetProject(project);
     }
@@ -85,7 +85,7 @@ public partial class MainView : UserControl
     private async Task SerializeProjectAsync(IStorageFile file, TerraTomeProject project)
     {
         await using var stream = await file.OpenWriteAsync();
-        await JsonSerializer.SerializeAsync(stream, project);
+        await JsonSerializer.SerializeAsync(stream, project.ToDto());
     }
 
     private async Task<IReadOnlyList<IStorageFile>> ShowOpenFileDialog(TopLevel topLevel, string title)
