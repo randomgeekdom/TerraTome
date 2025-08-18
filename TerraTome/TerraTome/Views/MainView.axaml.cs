@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -11,99 +14,96 @@ namespace TerraTome.Views;
 
 public partial class MainView : UserControl
 {
-	public MainView()
-	{
-		InitializeComponent();
-	}
-	
-	private async  void Load_OnClick(object? sender, RoutedEventArgs e)
+    public MainView()
     {
-        if (DataContext is not MainViewModel vm) return;
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        if(topLevel is null) return;
-            
-        // Start async operation to open the dialog.
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        {
-            Title = "Load Project",
-            AllowMultiple = false,
-            FileTypeFilter = [new FilePickerFileType("TerraTome Project"){Patterns = ["*.tt"] }]
-        });
-
-        if (files.Count < 1) return;
-        // Open reading stream from the first file.
-        await using var stream = await files[0].OpenReadAsync();
-        var project = await JsonSerializer.DeserializeAsync<TerraTomeProjectDto>(stream);
-
-        var entity = TerraTomeProject.TryCreate(files[0].Path.AbsolutePath).Value;
-        if (project != null) entity.FromDto(project);
-
-        vm.SetProject(entity);
+        InitializeComponent();
     }
-    
 
-    private async  void Create_OnClick(object? sender, RoutedEventArgs e)
+    private static FilePickerFileType TerraTomeFileType => new("TerraTome Project") { Patterns = ["*.tt"] };
+
+    private async void Create_OnClick(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
-        var topLevel = TopLevel.GetTopLevel(this);
+        var topLevel = GetTopLevel();
+        if (topLevel is null) return;
 
-        if(topLevel is null) return;
-
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-        {
-            Title = "Save Project",
-            FileTypeChoices = [new FilePickerFileType("TerraTome Project"){  Patterns = ["*.tt"] }],
-        });
-
+        var file = await ShowSaveFileDialog(topLevel, "Save Project");
         if (file == null) return;
         var project = TerraTomeProject.TryCreate(file.Path.AbsolutePath).Value;
-
-        await using var stream = await file.OpenWriteAsync();
-        await JsonSerializer.SerializeAsync(stream, project);
-
+        await SerializeProjectAsync(file, project);
         vm.SetProject(project);
+    }
+
+    private async Task<TerraTomeProjectDto?> DeserializeProjectDtoAsync(IStorageFile file)
+    {
+        await using var stream = await file.OpenReadAsync();
+        return await JsonSerializer.DeserializeAsync<TerraTomeProjectDto>(stream);
+    }
+
+    private TopLevel? GetTopLevel() => TopLevel.GetTopLevel(this);
+
+    private async void Load_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel vm) return;
+        var topLevel = GetTopLevel();
+        if (topLevel is null) return;
+
+        var files = await ShowOpenFileDialog(topLevel, "Load Project");
+        if (files.Count < 1) return;
+
+        var projectDto = await DeserializeProjectDtoAsync(files[0]);
+        var entity = TerraTomeProject.TryCreate(files[0].Path.AbsolutePath).Value;
+        if (projectDto != null) entity.FromDto(projectDto);
+        vm.SetProject(entity);
     }
 
     private async void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
-        var topLevel = TopLevel.GetTopLevel(this);
-
+        var topLevel = GetTopLevel();
         if (topLevel is null) return;
 
         var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.TerraTomeProject!.GetFilePath());
-
         if (file == null) throw new FileNotFoundException();
-
-        await using var stream = await file.OpenWriteAsync();
-        await JsonSerializer.SerializeAsync(stream, vm.TerraTomeProject);
+        await SerializeProjectAsync(file, vm.TerraTomeProject!);
     }
 
     private async void SaveAs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
-        var topLevel = TopLevel.GetTopLevel(this);
-
+        var topLevel = GetTopLevel();
         if (topLevel is null) return;
 
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
-        {
-            Title = "Save Project Copy",
-            FileTypeChoices = [new FilePickerFileType("TerraTome Project") { Patterns = ["*.tt"] }],
-        });
-
+        var file = await ShowSaveFileDialog(topLevel, "Save Project Copy");
         if (file == null) return;
         var project = vm.TerraTomeProject!;
         project.SetFilePath(file.Path.AbsolutePath);
+        await SerializeProjectAsync(file, project);
+        vm.SetProject(project);
+    }
 
+    private async Task SerializeProjectAsync(IStorageFile file, TerraTomeProject project)
+    {
         await using var stream = await file.OpenWriteAsync();
         await JsonSerializer.SerializeAsync(stream, project);
+    }
 
-        vm.SetProject(project);
+    private async Task<IReadOnlyList<IStorageFile>> ShowOpenFileDialog(TopLevel topLevel, string title)
+    {
+        return await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = title,
+            AllowMultiple = false,
+            FileTypeFilter = [TerraTomeFileType],
+        });
+    }
+
+    private async Task<IStorageFile?> ShowSaveFileDialog(TopLevel topLevel, string title)
+    {
+        return await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = title,
+            FileTypeChoices = [TerraTomeFileType],
+        });
     }
 }
