@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -29,9 +30,8 @@ public partial class MainView : UserControl
 
         var file = await ShowSaveFileDialog(topLevel, "Save Project");
         if (file == null) return;
-        var project = TerraTomeProject.TryCreate(file.Path).Value;
-        await SerializeProjectAsync(file, project);
-        vm.SetProject(project);
+        var dto = await SaveProjectAsync(file, vm);
+        vm.SetProject(dto, file.Path);
     }
 
     private async Task<TerraTomeProjectDto?> DeserializeProjectDtoAsync(IStorageFile file)
@@ -52,9 +52,7 @@ public partial class MainView : UserControl
         if (files.Count < 1) return;
 
         var projectDto = await DeserializeProjectDtoAsync(files[0]);
-        var entity = TerraTomeProject.TryCreate(files[0].Path).Value;
-        if (projectDto != null) entity.FromDto(projectDto);
-        vm.SetProject(entity);
+        vm.SetProject(projectDto!, files[0].Path);
     }
 
     private async void Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -63,9 +61,9 @@ public partial class MainView : UserControl
         var topLevel = GetTopLevel();
         if (topLevel is null) return;
 
-        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.TerraTomeProject!.GetFilePath());
+        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.TerraTomeProjectSettings!.GetFilePath());
         if (file == null) throw new FileNotFoundException();
-        await SerializeProjectAsync(file, vm.TerraTomeProject!);
+        await SaveProjectAsync(file, vm);
     }
 
     private async void SaveAs_Click(object? sender, RoutedEventArgs e)
@@ -76,16 +74,23 @@ public partial class MainView : UserControl
 
         var file = await ShowSaveFileDialog(topLevel, "Save Project Copy");
         if (file == null) return;
-        var project = vm.TerraTomeProject!;
-        project.SetFilePath(file.Path);
-        await SerializeProjectAsync(file, project);
-        vm.SetProject(project);
+        vm.TerraTomeProjectSettings!.SetFilePath(file.Path);
+        await SaveProjectAsync(file, vm);
     }
 
-    private async Task SerializeProjectAsync(IStorageFile file, TerraTomeProject project)
+    /// <summary>
+    /// This needs to take in the top level project and each view should have its own BoundedContext/AggregateRoot
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="project"></param>
+    /// <returns></returns>
+    private async Task<TerraTomeProjectDto> SaveProjectAsync(IStorageFile file, MainViewModel vm)
     {
         await using var stream = await file.OpenWriteAsync();
-        await JsonSerializer.SerializeAsync(stream, project.ToDto());
+
+        var dto = GetDto(vm);
+        await JsonSerializer.SerializeAsync(stream, GetDto(vm));
+        return dto;
     }
 
     private async Task<IReadOnlyList<IStorageFile>> ShowOpenFileDialog(TopLevel topLevel, string title)
@@ -105,5 +110,21 @@ public partial class MainView : UserControl
             Title = title,
             FileTypeChoices = [TerraTomeFileType],
         });
+    }
+
+    private static TerraTomeProjectDto GetDto(MainViewModel mainViewModel)
+    {
+        if (!mainViewModel.ViewModels.Any()) 
+        {
+            return TerraTomeProject.TryCreate().Value.ToDto();
+        }
+
+        var worldViewModel = mainViewModel.ViewModels.First(x => x is WorldViewModel) as WorldViewModel;
+        var timelineViewModel = mainViewModel.ViewModels.First(x => x is TimelineViewModel) as TimelineViewModel;
+
+        var dto = mainViewModel.TerraTomeProjectSettings!.ToDto();
+        dto = worldViewModel!.Project.ToDto(dto);
+
+        return dto;
     }
 }

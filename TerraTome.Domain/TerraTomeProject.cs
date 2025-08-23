@@ -4,23 +4,16 @@ using TerraTome.Domain.Dtos;
 
 namespace TerraTome.Domain;
 
-public class TerraTomeProject : Entity<TerraTomeProjectDto>
+public class TerraTomeProject : AggregateRoot
 {
-    private Uri _filePath;
-
-    private TerraTomeProject(Uri filePath)
-    {
-        _filePath = filePath;
-    }
-
     public string MonetaryUnit { get; private set; } = "Gold";
     public string Name { get; private set; } = "New World";
     public string Notes { get; private set; } = string.Empty;
     public string TimelineUnit { get; private set; } = "Year";
 
-    public static Result<TerraTomeProject> TryCreate(Uri filePath)
+    public static Result<TerraTomeProject> TryCreate()
     {
-        return new TerraTomeProject(filePath);
+        return new TerraTomeProject();
     }
 
     public override void FromDto(TerraTomeProjectDto dto)
@@ -30,16 +23,6 @@ public class TerraTomeProject : Entity<TerraTomeProjectDto>
         TimelineUnit = dto.TimelineUnit;
         MonetaryUnit = dto.MonetaryUnit;
         Notes = dto.Notes;
-    }
-
-    public Uri GetFilePath()
-    {
-        return _filePath;
-    }
-
-    public void SetFilePath(Uri filePath)
-    {
-        this._filePath = filePath;
     }
 
     public void SetMonetaryUnit(string monetaryUnit)
@@ -62,15 +45,15 @@ public class TerraTomeProject : Entity<TerraTomeProjectDto>
         TimelineUnit = timelineUnit;
     }
 
-    public override TerraTomeProjectDto ToDto()
+    public override TerraTomeProjectDto ToDto(TerraTomeProjectDto? existingDto = null)
     {
-        return new TerraTomeProjectDto
-        {
-            Id = Id,
-            Name = Name,
-            TimelineUnit = TimelineUnit,
-            MonetaryUnit = MonetaryUnit,
-            Notes = Notes
-        };
+        var dto = existingDto ?? new TerraTomeProjectDto();
+        dto.Id = Id;
+        dto.Name = Name;
+        dto.TimelineUnit = TimelineUnit;
+        dto.MonetaryUnit = MonetaryUnit;
+        dto.Notes = Notes;
+
+        return dto;
     }
 }

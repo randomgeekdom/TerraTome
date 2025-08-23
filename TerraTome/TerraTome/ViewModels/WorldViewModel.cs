@@ -1,14 +1,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using TerraTome.Domain;
+using TerraTome.Domain.Dtos;
 
 namespace TerraTome.ViewModels;
 
-public partial class WorldViewModel(TerraTomeProject project) : ViewModelBase
+public partial class WorldViewModel : ViewModelBase
 {
 	public override string Name => "Basics";
-	[ObservableProperty] private TerraTomeProject _project = project;
+	[ObservableProperty] private TerraTomeProject _project;
 
-	public string WorldName
+    public WorldViewModel(TerraTomeProjectDto projectDto)
+    {
+		_project = new TerraTomeProject();
+		_project.FromDto(projectDto);
+    }
+
+    public string WorldName
 	{
 		get => Project.Name;
 		set

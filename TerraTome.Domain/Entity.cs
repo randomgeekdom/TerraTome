@@ -52,6 +52,6 @@ public abstract class Entity<TDto>
 		return (GetType().ToString() + Id).GetHashCode();
 	}
 	
-	public abstract TDto ToDto();
+	public abstract TDto ToDto(TDto? existingDto = null);
 	public abstract void FromDto(TDto dto);
 }
