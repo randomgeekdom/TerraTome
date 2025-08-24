@@ -21,7 +21,7 @@ public partial class MainViewModel : ViewModelBase
 	{
 		TerraTomeProjectSettings = TerraTomeProjectSettings.TryCreate(filePath);
 
-		ViewModels = [new WorldViewModel(project), new TimelineViewModel()];
+		ViewModels = [new WorldViewModel(project), new TimelineViewModel { IsVisible = false }];
 
 		OnPropertyChanged(nameof(IsProjectLoaded));
 		OnPropertyChanged(nameof(IsProjectNotLoaded));

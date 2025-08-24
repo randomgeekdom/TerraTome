@@ -26,50 +26,13 @@
 			</MenuItem>
 		</Menu>
         
-        <!--<Grid IsVisible="{Binding IsProjectNotLoaded}" 
-                   HorizontalAlignment="Stretch" 
-                   VerticalAlignment="Stretch"
-			  Grid.RowSpan="2"
-			  >
-	        
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-	        <Button Click="Create_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Image Source="../../Assets/create.png" Height="50" Width="50"></Image>
-                    <TextBlock Text="Create New Project" Grid.Row="1"></TextBlock>
-                </Grid>
-            </Button>
-	        <Button Click="Load_OnClick" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Image Source="../../Assets/open.png" Height="50" Width="50"></Image>
-                    <TextBlock Text="Load Existing Project" Grid.Row="1"></TextBlock>
-                </Grid>
-            </Button>
-        </Grid>-->
-        
         <DockPanel IsVisible="{Binding IsProjectLoaded}" Dock="Top" Grid.Row="1">
-            <TabControl  ItemsSource="{Binding ViewModels}">
+            <TabControl  ItemsSource="{Binding ViewModels}" >
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
+						<Grid IsVisible="{Binding IsVisible}">
+							<TextBlock Text="{Binding Name}" />
+						</Grid>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>

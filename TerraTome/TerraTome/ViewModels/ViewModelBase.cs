@@ -2,7 +2,10 @@
 
 namespace TerraTome.ViewModels;
 
-public abstract class ViewModelBase : ObservableObject
+public abstract partial class ViewModelBase : ObservableObject
 {
 	public abstract string Name { get; }
+
+	[ObservableProperty]
+	private bool _isVisible = true;
 }
