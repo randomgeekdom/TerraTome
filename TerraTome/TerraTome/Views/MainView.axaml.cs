@@ -112,11 +112,16 @@ public partial class MainView : UserControl
         });
     }
 
+    /// <summary>
+    /// Method that gets the view models and converts them to a DTO to save
+    /// </summary>
+    /// <param name="mainViewModel"></param>
+    /// <returns></returns>
     private static TerraTomeProjectDto GetDto(MainViewModel mainViewModel)
     {
         if (!mainViewModel.ViewModels.Any()) 
         {
-            return TerraTomeProject.TryCreate().Value.ToDto();
+            return TerraTomeBasics.TryCreate().Value.ToDto();
         }
 
         var worldViewModel = mainViewModel.ViewModels.First(x => x is WorldViewModel) as WorldViewModel;

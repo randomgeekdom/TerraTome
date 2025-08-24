@@ -2,19 +2,6 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/TerraTome
-/TerraTome.Domain/bin/Debug/net9.0
-/TerraTome.Domain/obj/Debug/net9.0/ref
-/TerraTome.Domain/obj/Debug/net9.0/refint
-/TerraTome.Domain/obj/project.assets.json
-/TerraTome.Domain/obj/project.nuget.cache
-/TerraTome.Domain/obj/project.packagespec.json
-/TerraTome.Domain/obj/TerraTome.Domain.csproj.nuget.dgspec.json
-/TerraTome.Domain/obj/TerraTome.Domain.csproj.nuget.g.props
-/TerraTome.Domain/obj/Debug/net9.0
-/TerraTome.Domain/obj/Debug/net9.0/TerraTome.Domain.assets.cache
-/TerraTome.Domain/obj/Debug/net9.0/TerraTome.Domain.AssemblyInfo.cs
-/TerraTome.Domain/obj/Debug/net9.0/TerraTome.Domain.AssemblyInfoInputs.cache
-/TerraTome.Domain/obj/Debug/net9.0/TerraTome.Domain.GeneratedMSBuildEditorConfig.editorconfig
-/TerraTome.Domain/obj/Debug/net9.0/TerraTome.Domain.GlobalUsings.g.cs
-/.vs/CopilotSnapshots/B1CD302C49DB294CB4290DA50A0D730C
+/.vs
+/TerraTome.Domain/bin
+/TerraTome.Domain/obj

@@ -7,11 +7,11 @@ namespace TerraTome.ViewModels;
 public partial class WorldViewModel : ViewModelBase
 {
 	public override string Name => "Basics";
-	[ObservableProperty] private TerraTomeProject _project;
+	[ObservableProperty] private TerraTomeBasics _project;
 
     public WorldViewModel(TerraTomeProjectDto projectDto)
     {
-		_project = new TerraTomeProject();
+		_project = new TerraTomeBasics();
 		_project.FromDto(projectDto);
     }
 

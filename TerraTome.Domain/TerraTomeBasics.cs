@@ -4,16 +4,16 @@ using TerraTome.Domain.Dtos;
 
 namespace TerraTome.Domain;
 
-public class TerraTomeProject : AggregateRoot
+public class TerraTomeBasics : AggregateRoot
 {
     public string MonetaryUnit { get; private set; } = "Gold";
     public string Name { get; private set; } = "New World";
     public string Notes { get; private set; } = string.Empty;
     public string TimelineUnit { get; private set; } = "Year";
 
-    public static Result<TerraTomeProject> TryCreate()
+    public static Result<TerraTomeBasics> TryCreate()
     {
-        return new TerraTomeProject();
+        return new TerraTomeBasics();
     }
 
     public override void FromDto(TerraTomeProjectDto dto)
