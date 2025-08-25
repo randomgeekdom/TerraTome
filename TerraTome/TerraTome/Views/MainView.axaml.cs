@@ -132,4 +132,8 @@ public partial class MainView : UserControl
 
         return dto;
     }
+
+    private void Binding_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+    }
 }

@@ -6,18 +6,18 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TerraTome.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
-   <Grid>
-        <Grid.RowDefinitions>
+		<vm:MainViewModel />
+	</Design.DataContext>
+	<Grid>
+		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-        <Menu>
+		<Menu>
 			<MenuItem Header="_File">
 				<MenuItem Header="_New" Click="Create_OnClick"></MenuItem>
 				<MenuItem Header="_Open" Click="Load_OnClick" ></MenuItem>
@@ -25,22 +25,27 @@
 				<MenuItem Header="_Save Copy" Click="SaveAs_Click" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
 			</MenuItem>
 		</Menu>
-        
-        <DockPanel IsVisible="{Binding IsProjectLoaded}" Dock="Top" Grid.Row="1">
-            <TabControl  ItemsSource="{Binding ViewModels}" >
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-						<Grid IsVisible="{Binding IsVisible}">
+
+		<DockPanel IsVisible="{Binding IsProjectLoaded}" Dock="Top" Grid.Row="1">
+			<TabControl  ItemsSource="{Binding VisibleViewModels}">
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 							<TextBlock Text="{Binding Name}" />
+							<Button Content="x" Grid.Column="1" Command="{Binding TabCloseCommand}"/>
 						</Grid>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <ContentControl Content="{Binding}" />
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-        </DockPanel>
-    </Grid>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+				<TabControl.ContentTemplate>
+					<DataTemplate>
+						<ContentControl Content="{Binding}"  />
+					</DataTemplate>
+				</TabControl.ContentTemplate>
+			</TabControl>
+		</DockPanel>
+	</Grid>
 </UserControl>
