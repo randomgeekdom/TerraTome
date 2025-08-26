@@ -5,7 +5,20 @@
              xmlns:vm="clr-namespace:TerraTome.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="TerraTome.Views.MainView"
+			 KeyUp="UserControl_KeyUp_1"
              x:DataType="vm:MainViewModel">
+    <UserControl.Styles>
+        <Style Selector="Button#TabCloseButton">
+            <Setter Property="Padding" Value="4,0"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="Button#TabCloseButton:pointerover">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+    </UserControl.Styles>
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -35,8 +48,12 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-							<TextBlock Text="{Binding Name}" />
-							<Button Content="x" Grid.Column="1" Command="{Binding TabCloseCommand}"/>
+							<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+							<Button Content="×" 
+									Grid.Column="1" 
+									Command="{Binding TabCloseCommand}" 
+									Name="TabCloseButton"
+									BorderThickness="0"/>
 						</Grid>
 					</DataTemplate>
 				</TabControl.ItemTemplate>

@@ -30,8 +30,9 @@ public partial class MainView : UserControl
 
         var file = await ShowSaveFileDialog(topLevel, "Save Project");
         if (file == null) return;
-        var dto = await SaveProjectAsync(file, vm);
-        vm.SetProject(dto, file.Path);
+
+        vm.SetProject(new TerraTomeProjectDto(), file.Path);
+        await SaveProjectAsync(file, vm);
     }
 
     private async Task<TerraTomeProjectDto?> DeserializeProjectDtoAsync(IStorageFile file)
@@ -133,7 +134,24 @@ public partial class MainView : UserControl
         return dto;
     }
 
-    private void Binding_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void UserControl_KeyUp_1(object? sender, Avalonia.Input.KeyEventArgs e)
     {
+        // CTRL + S
+        if (e.Key == Avalonia.Input.Key.S && (e.KeyModifiers & Avalonia.Input.KeyModifiers.Control) != 0)
+        {
+            Save_Click(sender, e);
+        }
+
+        // CTRL + O
+        else if (e.Key == Avalonia.Input.Key.O && (e.KeyModifiers & Avalonia.Input.KeyModifiers.Control) != 0)
+        {
+            Load_OnClick(sender, e);
+        }
+
+        // CTRL + N
+        else if (e.Key == Avalonia.Input.Key.N && (e.KeyModifiers & Avalonia.Input.KeyModifiers.Control) != 0)
+        {
+            Create_OnClick(sender, e);
+        }
     }
 }
