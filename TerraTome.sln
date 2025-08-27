@@ -1,16 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome", "TerraTome\TerraTome\TerraTome.csproj", "{5098B8B5-6090-4E12-9D52-A2E66C015707}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Android", "TerraTome\TerraTome.Android\TerraTome.Android.csproj", "{04FBEE37-AE24-4D57-A416-3C194C1AE774}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Desktop", "TerraTome\TerraTome.Desktop\TerraTome.Desktop.csproj", "{D023D064-C957-44B3-8B3D-A688F4CF3C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.iOS", "TerraTome\TerraTome.iOS\TerraTome.iOS.csproj", "{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Browser", "TerraTome\TerraTome.Browser\TerraTome.Browser.csproj", "{54E2A1E4-AA76-4A57-AA1B-3957CE0FB38B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Domain", "TerraTome.Domain\TerraTome.Domain.csproj", "{F35DF605-5EA5-43E0-8D51-F7AFE613E62D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraTome.Repository", "TerraTome.Repository\TerraTome.Repository.csproj", "{4BB8087E-D9DA-4AB0-A28F-A3097C11EDFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,29 +21,23 @@ Global
 		{5098B8B5-6090-4E12-9D52-A2E66C015707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5098B8B5-6090-4E12-9D52-A2E66C015707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5098B8B5-6090-4E12-9D52-A2E66C015707}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04FBEE37-AE24-4D57-A416-3C194C1AE774}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{D023D064-C957-44B3-8B3D-A688F4CF3C80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D023D064-C957-44B3-8B3D-A688F4CF3C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D023D064-C957-44B3-8B3D-A688F4CF3C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D023D064-C957-44B3-8B3D-A688F4CF3C80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD3B5164-ED43-4D3B-A0CB-430D9A3ED272}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{54E2A1E4-AA76-4A57-AA1B-3957CE0FB38B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54E2A1E4-AA76-4A57-AA1B-3957CE0FB38B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54E2A1E4-AA76-4A57-AA1B-3957CE0FB38B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54E2A1E4-AA76-4A57-AA1B-3957CE0FB38B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F35DF605-5EA5-43E0-8D51-F7AFE613E62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F35DF605-5EA5-43E0-8D51-F7AFE613E62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F35DF605-5EA5-43E0-8D51-F7AFE613E62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35DF605-5EA5-43E0-8D51-F7AFE613E62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB8087E-D9DA-4AB0-A28F-A3097C11EDFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB8087E-D9DA-4AB0-A28F-A3097C11EDFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB8087E-D9DA-4AB0-A28F-A3097C11EDFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB8087E-D9DA-4AB0-A28F-A3097C11EDFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AB00216-77FA-490F-897C-2FD212E558E9}
 	EndGlobalSection
 EndGlobal

@@ -5,3 +5,4 @@
 /.vs
 /TerraTome.Domain/bin
 /TerraTome.Domain/obj
+/TerraTome.Repository/obj/Debug/net10.0
