@@ -24,6 +24,7 @@ public partial class MainViewModel : ViewModelBase
 
     private void OnTabCloseRequested(object? sender, EventArgs e)
     {
+        //TODO: Prompt to save if dirty
         OnPropertyChanged(nameof(VisibleViewModels));
         if (CurrentViewModel is not null && !CurrentViewModel.IsVisible)
         {
