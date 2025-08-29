@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
+using TerraTome.Domain.Dtos;
 
 namespace TerraTome.ViewModels;
 
@@ -24,4 +25,6 @@ public abstract partial class ViewModelBase : ObservableObject
         this.IsVisible = false;
         TabCloseRequested?.Invoke(this, EventArgs.Empty);
     }
+
+    public abstract void MapToDto(TerraTomeProjectDto project);
 }

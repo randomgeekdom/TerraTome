@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -62,7 +63,7 @@ public partial class MainView : UserControl
         var topLevel = GetTopLevel();
         if (topLevel is null) return;
 
-        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.TerraTomeProjectSettings!.GetFilePath());
+        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: vm.ProjectFilePath);
         if (file == null) throw new FileNotFoundException();
         await SaveProjectAsync(file, vm);
     }
@@ -75,7 +76,7 @@ public partial class MainView : UserControl
 
         var file = await ShowSaveFileDialog(topLevel, "Save Project Copy");
         if (file == null) return;
-        vm.TerraTomeProjectSettings!.SetFilePath(file.Path);
+        vm.ProjectFilePath = file.Path;
         await SaveProjectAsync(file, vm);
     }
 
@@ -120,16 +121,9 @@ public partial class MainView : UserControl
     /// <returns></returns>
     private static TerraTomeProjectDto GetDto(MainViewModel mainViewModel)
     {
-        if (!mainViewModel.ViewModels.Any()) 
-        {
-            return TerraTomeBasics.TryCreate().Value.ToDto();
-        }
+        var dto = new TerraTomeProjectDto { Id = mainViewModel.Project?.Id ?? Guid.NewGuid()};
 
-        var worldViewModel = mainViewModel.ViewModels.First(x => x is WorldViewModel) as WorldViewModel;
-        var timelineViewModel = mainViewModel.ViewModels.First(x => x is TimelineViewModel) as TimelineViewModel;
-
-        var dto = mainViewModel.TerraTomeProjectSettings!.ToDto();
-        dto = worldViewModel!.Project.ToDto(dto);
+        mainViewModel.MapToDto(dto);
 
         return dto;
     }

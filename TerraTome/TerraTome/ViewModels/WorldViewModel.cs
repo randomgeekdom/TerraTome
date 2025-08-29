@@ -54,4 +54,9 @@ public partial class WorldViewModel : ViewModelBase
 			OnPropertyChanged(nameof(Notes));
 		}
 	}
+
+    public override void MapToDto(TerraTomeProjectDto project)
+    {
+		Project.ToDto(project);
+    }
 }

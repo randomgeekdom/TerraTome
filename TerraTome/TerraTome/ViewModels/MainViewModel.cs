@@ -12,14 +12,15 @@ namespace TerraTome.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty] private string _greeting = "Welcome to Avalonia!";
-    [ObservableProperty] private TerraTomeProjectSettings? _terraTomeProjectSettings;
     [ObservableProperty] private ViewModelBase? _currentViewModel;
     [ObservableProperty] private ObservableCollection<ViewModelBase> _viewModels = [];
+    [ObservableProperty] private TerraTomeProjectDto? _project;
+    [ObservableProperty] private Uri? _projectFilePath;
 
     public ObservableCollection<ViewModelBase> VisibleViewModels => new(ViewModels.Where(vm => vm.IsVisible));
 
-    public bool IsProjectLoaded => TerraTomeProjectSettings is not null;
-    public bool IsProjectNotLoaded => TerraTomeProjectSettings is null;
+    public bool IsProjectLoaded => Project is not null;
+    public bool IsProjectNotLoaded => Project is null;
 
     private void OnTabCloseRequested(object? sender, EventArgs e)
     {
@@ -32,9 +33,10 @@ public partial class MainViewModel : ViewModelBase
 
     public void SetProject(TerraTomeProjectDto project, Uri filePath)
     {
-        TerraTomeProjectSettings = TerraTomeProjectSettings.TryCreate(filePath);
+        this.ProjectFilePath = filePath;
+        this.Project = project;
 
-        ViewModels = new ObservableCollection<ViewModelBase> { new WorldViewModel(project), new TimelineViewModel { IsVisible = false } };
+        ViewModels = [new WorldViewModel(project), new TimelineViewModel { IsVisible = false }];
         foreach (var vm in ViewModels)
         {
             vm.TabCloseRequested += OnTabCloseRequested;
@@ -43,6 +45,14 @@ public partial class MainViewModel : ViewModelBase
         OnPropertyChanged(nameof(IsProjectLoaded));
         OnPropertyChanged(nameof(IsProjectNotLoaded));
         OnPropertyChanged(nameof(VisibleViewModels));
+    }
+
+    public override void MapToDto(TerraTomeProjectDto project)
+    {
+        foreach(var vm in ViewModels)
+        {
+            vm.MapToDto(project);
+        }
     }
 
     public override string Name => "Name";
