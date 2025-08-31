@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TerraTome.Domain;
 using TerraTome.Domain.Dtos;
+using TerraTome.Events;
 
 namespace TerraTome.ViewModels;
 
@@ -24,7 +25,14 @@ public partial class MainViewModel : ViewModelBase
 
     private void OnTabCloseRequested(object? sender, EventArgs e)
     {
-        //TODO: Prompt to save if dirty
+        var tabClosedArgs = e as TabCloseEventArgs;
+
+        //todo: handle saving
+        if (tabClosedArgs.IsSaving)
+        {
+            // Save the project
+        }
+
         OnPropertyChanged(nameof(VisibleViewModels));
         if (CurrentViewModel is not null && !CurrentViewModel.IsVisible)
         {
