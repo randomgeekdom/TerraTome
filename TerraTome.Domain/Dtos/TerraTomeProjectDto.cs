@@ -6,4 +6,5 @@ public class TerraTomeProjectDto:EntityDto
 	public string TimelineUnit { get; set; } = "Years";
 	public string MonetaryUnit { get; set; } = "Gold";
 	public string Notes { get; set; } = string.Empty;
+	public AttributeDto[] Attributes { get; set; } = [];
 }
