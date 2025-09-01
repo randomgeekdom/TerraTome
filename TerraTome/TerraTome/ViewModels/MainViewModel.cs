@@ -83,9 +83,9 @@ public partial class MainViewModel : ViewModelBase
         var tabClosedArgs = e as TabCloseEventArgs;
 
         //todo: handle saving
-        if (tabClosedArgs.IsSaving)
+        if (tabClosedArgs!.IsSaving)
         {
-            // Save the project
+            this.SaveCommand.Execute(null);
         }
 
         OnPropertyChanged(nameof(VisibleViewModels));
