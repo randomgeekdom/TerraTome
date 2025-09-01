@@ -3,7 +3,7 @@ using TerraTome.Domain.Dtos;
 namespace TerraTome.Domain;
 
 public abstract class Entity<TDto>
-	where TDto: EntityDto
+	where TDto: class
 {
 	public Guid Id { get; protected set; } = Guid.NewGuid();
 

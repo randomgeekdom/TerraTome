@@ -32,10 +32,10 @@
 
 		<Menu>
 			<MenuItem Header="_File">
-				<MenuItem Header="_New" Click="Create_OnClick"></MenuItem>
-				<MenuItem Header="_Open" Click="Load_OnClick" ></MenuItem>
-				<MenuItem Header="_Save" Click="Save_Click" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
-				<MenuItem Header="_Save Copy" Click="SaveAs_Click" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+				<MenuItem Header="_New" Command="{Binding CreateCommand}"></MenuItem>
+				<MenuItem Header="_Open"  Command="{Binding LoadCommand}"></MenuItem>
+				<MenuItem Header="_Save"  Command="{Binding SaveCommand}" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
+				<MenuItem Header="_Save Copy"  Command="{Binding SaveAsCommand}" IsEnabled="{Binding IsProjectLoaded}"></MenuItem>
 			</MenuItem>
 		</Menu>
 

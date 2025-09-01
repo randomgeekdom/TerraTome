@@ -1,14 +1,17 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TerraTome.Domain.Dtos;
 using TerraTome.Events;
+using TerraTome.Services;
 
 namespace TerraTome.ViewModels;
 
@@ -31,18 +34,22 @@ public abstract partial class ViewModelBase : ObservableObject
 
     private async Task TabCloseAsync()
     {
-        var messageBox = MessageBoxManager.GetMessageBoxStandard("Save?", "Contents on this tab have changed.  Would you like to save?", MsBox.Avalonia.Enums.ButtonEnum.YesNoCancel);
+        if (!IsDirty)
+        {
+            this.IsVisible = false;
+            TabCloseRequested?.Invoke(this, new TabCloseEventArgs { IsSaving = false });
+            return;
+        }
 
-        var application = Application.Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-        var result = await messageBox.ShowAsPopupAsync(application!.MainWindow!);
+        var result = await ApplicationService.ShowMessage("Save?", "Contents on this tab have changed.  Would you like to save?", ButtonEnum.YesNoCancel);
 
-        if(result == MsBox.Avalonia.Enums.ButtonResult.Cancel)
+        if (result == ButtonResult.Cancel)
         {
             return;
         }
 
         this.IsVisible = false;
-        TabCloseRequested?.Invoke(this, new TabCloseEventArgs { IsSaving = result == MsBox.Avalonia.Enums.ButtonResult.Yes });
+        TabCloseRequested?.Invoke(this, new TabCloseEventArgs { IsSaving = result == ButtonResult.Yes });
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)

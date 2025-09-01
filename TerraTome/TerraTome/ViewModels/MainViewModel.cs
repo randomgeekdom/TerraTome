@@ -1,42 +1,40 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
+﻿using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using TerraTome.Domain;
 using TerraTome.Domain.Dtos;
 using TerraTome.Events;
+using TerraTome.Services;
 
 namespace TerraTome.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    [ObservableProperty] private string _greeting = "Welcome to Avalonia!";
     [ObservableProperty] private ViewModelBase? _currentViewModel;
-    [ObservableProperty] private ObservableCollection<ViewModelBase> _viewModels = [];
+    [ObservableProperty] private string _greeting = "Welcome to Avalonia!";
     [ObservableProperty] private TerraTomeProjectDto? _project;
     [ObservableProperty] private Uri? _projectFilePath;
-
-    public ObservableCollection<ViewModelBase> VisibleViewModels => new(ViewModels.Where(vm => vm.IsVisible));
-
+    [ObservableProperty] private ObservableCollection<ViewModelBase> _viewModels = [];
+    public ICommand CreateCommand => new AsyncRelayCommand(CreateAsync);
     public bool IsProjectLoaded => Project is not null;
     public bool IsProjectNotLoaded => Project is null;
+    public ICommand LoadCommand => new AsyncRelayCommand(LoadAsync);
+    public override string Name => "Name";
+    public ICommand SaveAsCommand => new AsyncRelayCommand(SaveAsAsync);
+    public ICommand SaveCommand => new AsyncRelayCommand(SaveAsync);
+    public ObservableCollection<ViewModelBase> VisibleViewModels => new(ViewModels.Where(vm => vm.IsVisible));
 
-    private void OnTabCloseRequested(object? sender, EventArgs e)
+    public override void MapToDto(TerraTomeProjectDto project)
     {
-        var tabClosedArgs = e as TabCloseEventArgs;
-
-        //todo: handle saving
-        if (tabClosedArgs.IsSaving)
+        foreach (var vm in ViewModels)
         {
-            // Save the project
-        }
-
-        OnPropertyChanged(nameof(VisibleViewModels));
-        if (CurrentViewModel is not null && !CurrentViewModel.IsVisible)
-        {
-            CurrentViewModel = VisibleViewModels.FirstOrDefault();
+            vm.MapToDto(project);
         }
     }
 
@@ -56,13 +54,65 @@ public partial class MainViewModel : ViewModelBase
         OnPropertyChanged(nameof(VisibleViewModels));
     }
 
-    public override void MapToDto(TerraTomeProjectDto project)
+    private async Task CreateAsync()
     {
-        foreach(var vm in ViewModels)
+        var topLevel = ApplicationService.GetTopLevel();
+        if (topLevel is null) return;
+
+        var file = await ApplicationService.ShowSaveFileDialog(topLevel, "Save Project");
+        if (file == null) return;
+
+        this.SetProject(new TerraTomeProjectDto(), file.Path);
+        await ApplicationService.SaveProjectAsync(file, this);
+    }
+
+    private async Task LoadAsync()
+    {
+        var topLevel = ApplicationService.GetTopLevel();
+        if (topLevel is null) return;
+
+        var files = await ApplicationService.ShowOpenFileDialog(topLevel, "Load Project");
+        if (files.Count < 1) return;
+
+        var projectDto = await ApplicationService.DeserializeProjectDtoAsync(files[0]);
+        this.SetProject(projectDto!, files[0].Path);
+    }
+
+    private void OnTabCloseRequested(object? sender, EventArgs e)
+    {
+        var tabClosedArgs = e as TabCloseEventArgs;
+
+        //todo: handle saving
+        if (tabClosedArgs.IsSaving)
         {
-            vm.MapToDto(project);
+            // Save the project
+        }
+
+        OnPropertyChanged(nameof(VisibleViewModels));
+        if (CurrentViewModel is not null && !CurrentViewModel.IsVisible)
+        {
+            CurrentViewModel = VisibleViewModels.FirstOrDefault();
         }
     }
 
-    public override string Name => "Name";
+    private async Task SaveAsAsync()
+    {
+        var topLevel = ApplicationService.GetTopLevel();
+        if (topLevel is null) return;
+
+        var file = await ApplicationService.ShowSaveFileDialog(topLevel, "Save Project Copy");
+        if (file == null) return;
+        this.ProjectFilePath = file.Path;
+        await ApplicationService.SaveProjectAsync(file, this);
+    }
+
+    private async Task SaveAsync()
+    {
+        var topLevel = ApplicationService.GetTopLevel();
+        if (topLevel is null) return;
+
+        var file = await topLevel.StorageProvider.TryGetFileFromPathAsync(filePath: this.ProjectFilePath!);
+        if (file == null) throw new FileNotFoundException();
+        await ApplicationService.SaveProjectAsync(file, this);
+    }
 }
