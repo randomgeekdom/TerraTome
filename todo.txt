@@ -1,0 +1,28 @@
+Tab show/hide in menu bar
+
+Save tabs to local settings
+
+Add comments to code
+
+Character Model - Name, Attributes, DOB, Description, Appearance, Personality, Backstory
+
+Character Model - Relationships, Notes, Tags, Images
+
+Allow adding attributes on Basics tab
+
+
+
+TerraTome tabs
+	Basics
+	Events (replace timeline)
+	- Add event
+		- View events
+		- Edit events
+		- Delete events
+	Locations
+	Characters
+	Stories
+	Campaigns
+	Items
+	Creatures
+	Factions
