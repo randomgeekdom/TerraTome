@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using TerraTome.Constants;
 using TerraTome.Domain;
 using TerraTome.Domain.Dtos;
 
@@ -66,7 +67,7 @@ public partial class WorldViewModel : ViewModelBase
         get => Project.NumericAttributes;
     }
 
-    public override string Name => "Basics";
+    public override string Name => TabNames.Basics;
 
     public string Notes
     {

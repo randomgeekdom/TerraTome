@@ -1,5 +1,4 @@
-﻿using Avalonia.Interactivity;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -7,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TerraTome.Domain;
+using TerraTome.Constants;
 using TerraTome.Domain.Dtos;
 using TerraTome.Events;
 using TerraTome.Services;
@@ -32,6 +31,7 @@ public partial class MainViewModel : ViewModelBase
 
     public override void MapToDto(TerraTomeProjectDto project)
     {
+        project.OpenTabs = [.. ViewModels.Where(vm => vm.IsVisible).Select(vm => vm.Name)];
         foreach (var vm in ViewModels)
         {
             vm.MapToDto(project);
@@ -43,7 +43,18 @@ public partial class MainViewModel : ViewModelBase
         this.ProjectFilePath = filePath;
         this.Project = project;
 
-        ViewModels = [new WorldViewModel(project), new TimelineViewModel { IsVisible = false }];
+        ViewModels = [];
+
+        if (project.OpenTabs.Contains(TabNames.Basics))
+        {
+            ViewModels.Add(new WorldViewModel(project));
+        }
+
+        if (project.OpenTabs.Contains(TabNames.Timeline))
+        {
+            ViewModels.Add(new TimelineViewModel());
+        }
+
         foreach (var vm in ViewModels)
         {
             vm.TabCloseRequested += OnTabCloseRequested;
