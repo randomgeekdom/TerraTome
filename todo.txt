@@ -1,6 +1,6 @@
 Tab show/hide in menu bar
 
-Save tabs to local settings
+Move saving tabs to View Model Factory
 
 Add comments to code
 
