@@ -1,7 +1,5 @@
 Tab show/hide in menu bar
 
-Move saving tabs to View Model Factory
-
 Add comments to code
 
 Character Model - Name, Attributes, DOB, Description, Appearance, Personality, Backstory

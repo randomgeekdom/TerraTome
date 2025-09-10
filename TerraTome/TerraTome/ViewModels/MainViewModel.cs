@@ -9,6 +9,7 @@ using System.Windows.Input;
 using TerraTome.Constants;
 using TerraTome.Domain.Dtos;
 using TerraTome.Events;
+using TerraTome.Extensions;
 using TerraTome.Services;
 
 namespace TerraTome.ViewModels;
@@ -43,17 +44,7 @@ public partial class MainViewModel : ViewModelBase
         this.ProjectFilePath = filePath;
         this.Project = project;
 
-        ViewModels = [];
-
-        if (project.OpenTabs.Contains(TabNames.Basics))
-        {
-            ViewModels.Add(new WorldViewModel(project));
-        }
-
-        if (project.OpenTabs.Contains(TabNames.Timeline))
-        {
-            ViewModels.Add(new TimelineViewModel());
-        }
+        ViewModels = new ObservableCollection<ViewModelBase>(project.GetViewModelsByTabs(project.OpenTabs));
 
         foreach (var vm in ViewModels)
         {
